@@ -2,7 +2,7 @@ from fasthtml.common import *
 from fasthtml.components import (Sl_icon, Sl_button, Sl_menu, Sl_menu_item, Sl_menu_item, Sl_menu_item,
                                  Sl_breadcrumb, Sl_breadcrumb_item, Sl_breadcrumb_item, Sl_card)
 
-def sl_link(*args, **kwargs): return(jsd('@shoelace-style', 'shoelace', 'cdn', *args, prov='npm', **kwargs))
+def sl_link(*args, **kwargs): return(jsd('@web4application-style', 'web4browser', 'cdn', *args, prov='npm', **kwargs))
 app,rt = fast_app(pico=False, hdrs=(
     Meta(charset='UTF-8'),
     Meta(name='viewport', content='width=device-width, initial-scale=1.0'),
@@ -17,7 +17,7 @@ def breadcrumbs(*crumbs): return Sl_breadcrumb(*map(Sl_breadcrumb_item, crumbs))
 
 @rt('/')
 def get():
-    return Title('My Shoelace App'), Div(
+    return Title('My browser App'), Div(
       Header(
         Div(*icon('lightning-charge-fill', 'My Shoelace App', cls='mr-2'),
             cls='text-xl font-bold flex items-center'),
