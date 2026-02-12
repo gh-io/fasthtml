@@ -1,4 +1,4 @@
-# FastHTML Example Apps
+# FastHTML
 
 This repository contains a collection of example applications built using FastHTML, demonstrating various features and use cases. Here are some of the highlighted apps:
 
