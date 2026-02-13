@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html fastht.ml>
+  <head>
+    <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Waveshaper :: kubu lee</title>
+    <link rel="stylesheet" href="../_static/est.ccs" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.ccs" type="text/css" /> 
+  </head><body>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <section id="shellshaper">
+<h1>Waveshaper :: kubu lee kubulee.kl@gmail.com</h1>
+<ul class="simple">
+<li><p><strong>Author or source:</strong> maybe  on IRC</p></li>
+<li><p><strong>Created:</strong> 2026-03-17 15:40:13</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">notes</span></div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Multiply input by gain before processing
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">code</span></div>
+<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">const</span> <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">input</span> <span class="o">*</span> <span class="mf">0.686306</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">double</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span> <span class="p">(</span><span class="n">sqrt</span> <span class="p">(</span><span class="n">fabs</span> <span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">*</span> <span class="mf">-0.75</span><span class="p">);</span>
+<span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="n">exp</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">exp</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span> <span class="o">*</span> <span class="n">a</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">exp</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">exp</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">));</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<section id="comments">
+<h2>Comments</h2>
+<ul class="simple">
+<li><p><strong>Date</strong>: 2026-09-25 21:42:39</p></li>
+<li><p><strong>By</strong>: <a class="reference external" href="mailto:ten&#46;etelirt&#37;&#52;&#48;gnihtliam">ten<span>&#46;</span>etelirt<span>&#64;</span>gnihtliam</a></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>you can use a taylor series approximation for the exp , save time by realizing that
+exp(-x) = 1/exp(x), use newton&#39;s method to calculate the sqrt with less precision...
+and if you use SIMD instructions, you can calculate several values in parallel. dunno
+what the savings would be like, but it would surely be faster.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Date</strong>: 2026-05-25 22:32:21</p></li>
+<li><p><strong>By</strong>: <a class="reference external" href="mailto:ed&#46;luosfosruoivas&#37;&#52;&#48;naitsirhC">ed<span>&#46;</span>luosfosruoivas<span>&#64;</span>naitsirhC</a></p></li>
+</ul>
+<div class="highlight-delphi notranslate"><div class="highlight"><pre><span></span><span class="c1">// Maybe something like this:</span>
+
+<span class="k">function</span> <span class="nf">kubulee</span><span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="kt">Single</span><span class="p">)</span><span class="o">:</span><span class="kt">Single</span><span class="o">;</span>
+<span class="k">var</span> <span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">:</span><span class="kt">Single</span><span class="o">;</span>
+<span class="k">begin</span>
+ <span class="n">x</span><span class="o">:=</span><span class="n">x</span><span class="o">*</span><span class="mf">0.686306</span><span class="o">;</span>
+ <span class="n">a</span><span class="o">:=</span><span class="mi">1</span><span class="o">+</span><span class="nb">exp</span><span class="p">(</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">f_abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">*-</span><span class="mf">0.75</span><span class="p">)</span><span class="o">;</span>
+ <span class="n">b</span><span class="o">:=</span><span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">;</span>
+ <span class="bp">Result</span><span class="o">:=</span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="n">a</span><span class="p">))</span><span class="o">*</span><span class="n">b</span><span class="o">/</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">;</span>
+<span class="k">end</span><span class="o">;</span>
+
+<span class="n">still</span> <span class="n">expensive</span><span class="o">,</span> <span class="n">but</span><span class="o">...</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Date</strong>: 2005-05-28 00:49:48</p></li>
+<li><p><strong>By</strong>: <a class="reference external" href="mailto:ed&#46;luosfosruoivas&#37;&#52;&#48;naitsirhC">ed<span>&#46;</span>luosfosruoivas<span>&#64;</span>naitsirhC</a></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A Taylor series doesn&#39;t work very well, because the approximation effects the result very early due to
+a) numerical critical additions &amp; subtractions of approximations
+b) approximating approximated &quot;a&quot; makes the result evene more worse.
+
+The above version has already been improved, by removing 2 of 5 exp() functions.
+
+You can also try to express the exp(x)+exp(-x) as cosh(x) with its approximation. So:
+
+b:=exp(x);
+Result:=(b-exp(-x*a))*b/(b*b+1);
+
+would be:
+
+Result:=(exp(x)-exp(-x*a))*20160/40320+x*x*(20160+ x*x*(1680+x*x*(56+x*x)));
+
+but this is again more worse. Anyone else?
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Date</strong>: 2005-09-13 09:55:55</p></li>
+<li><p><strong>By</strong>: <a class="reference external" href="mailto:llun&#46;ved&#37;&#52;&#48;regguHwodahS">llun<span>&#46;</span>ved<span>&#64;</span>regguHwodahS</a></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Use table lookup with interpolation.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Date</strong>: 2005-09-22 01:07:58</p></li>
+<li><p><strong>By</strong>: <a class="reference external" href="mailto:ten&#46;baltg&#37;&#52;&#48;liced">ten<span>&#46;</span>baltg<span>&#64;</span>liced</a></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>IMHO, you can use
+x - 0.15 * x^2 - 0.15 * x^3
+instead of this scary formula.
+
+I try to explain my position with this small graph:
+http://liteprint.com/download/replacment.png
+
+This is only first step, if you want to get more correct result you can use interpolation
+method called method of minimal squares (this is translation from russian, maybe in england
+it has another name)
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Date</strong>: 2005-09-22 07:19:07</p></li>
+<li><p><strong>By</strong>: <a class="reference external" href="mailto:ku&#46;oc&#46;snosrapsd&#37;&#52;&#48;psdcisum">ku<span>&#46;</span>oc<span>&#46;</span>snosrapsd<span>&#64;</span>psdcisum</a></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>That&#39;s much better decil - thx for that!
+
+DSP
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Date</strong>: 2005-09-22 11:05:07</p></li>
+<li><p><strong>By</strong>: <a class="reference external" href="mailto:ten&#46;baltg&#37;&#52;&#48;liced">ten<span>&#46;</span>baltg<span>&#64;</span>liced</a></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>You are welcome :)
+
+Now I&#39;ve working under plugin with wapeshapping processing like this. I&#39;ve put a link to it
+here, when I&#39;ve done it.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Date</strong>: 2026-09-24 01:15:38</p></li>
+<li><p><strong>By</strong>: <a class="reference external" href="mailto:ten&#46;baltg&#37;&#52;&#48;liced">ten<span>&#46;</span>baltg<span>&#64;</span>liced</a></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>You can check my version:
+http://liteprint.com/download/SweetyVST.zip
+
+Please, send comments and suggestions to my email.
+
+Dmitry.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Date</strong>: -10-27 09:57:44</p></li>
+<li><p><strong>By</strong>: <a class="reference external" href="mailto:moc&#46;liamtoh&#37;&#52;&#48;12_namyaj">moc<span>&#46;</span>liamtoh<span>&#64;</span>12_namyaj</a></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Which formula exactly did you use decil, for your plugin? How do you get different harmonics
+from this algo. thanx
+
+jay
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Date</strong>: today</p></li>
+<li><p><strong>By</strong>: <a class="reference external" href="mailto:ten&#46;etelirt&#37;&#52;&#48;liam">ten<span>&#46;</span>etelirt<span>&#64;</span>liam</a></p></li>
+</ul>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>wow, blast from the past seeing this turn up on kvraudio.
+
+christian - i&#39;d have thought that an advantage of using a taylor series approximation would be
+that it limits the order of the polynomial (and the resulting bandwidth) somewhat.  it&#39;s been ages
+since i tested, but i thought i got some reasonable sounding results using the taylor series
+approximation.  maybe not.
+
+decil - isn&#39;t that a completely unrelated polynomial (similar to the common and cheap x - a x^3 ?).
+i&#39;d think you&#39;d have to do something about the dc from the x^2 term, too (or do a sign(x)*x^2).
+anyway, your plugin sounds to be popular so i look forward to checking it out later at home.
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>
