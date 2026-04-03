@@ -33,6 +33,19 @@ Key features:
 
 A simple chatbot, showcasing custom styling with [DaisyUI](https://daisyui.com/) for the chat message bubbles. Includes different approaches to handling chat message updates.
 
+```sed
+def sed(
+    argstr:str, # All args to the command, will be split with shlex. No shell escaping needed for regex chars like `|`
+    disallow_re:str=None, # optional regex which, if matched on argstr, will disallow the command
+    allow_re:str=None, # optional regex which, if not matched on argstr, will disallow the command
+):
+print(view('_quarto.yml', (1,10), nums=True))
+print(view('.', (1,5)).replace(os.getcwd(), '/path'))
+```
+
+
+
+
 [View Chatbot App](02_chatbot/)
 
 ## 4. Pictionary
@@ -47,6 +60,15 @@ Sending user drawings to a multi-modal AI model for continuous captioning.
 
 The remaining examples are a collection of smaller demos and utilities showcasing various features of FastHTML. These are proof-of-concepts and demos rather than full-fledged applications, but should still show some useful patterns and techniques you can use in your own projects.
 
+def view(
+    path:str, # Path to directory or file to view
+    view_range:tuple=None, # Optional 1-indexed (start, end) line range for files, end=-1 for EOF. Do NOT use unless it's known that the file is too big to keep in context—simply view the WHOLE file when possible
+  
+  ```py
+    nums:bool=False, # Whether to show line numbers
+    skip_folders:tuple=('_proc', '__pycache__'), # Folder names to skip when listing directories
+):
+```
 ## Running the Apps
 
 Each app is contained in its own directory. To run an app:
@@ -54,6 +76,8 @@ Each app is contained in its own directory. To run an app:
 1. Navigate to the app's directory
 2. Install the required dependencies (usually with `pip install -r requirements.txt`)
 3. Run the app using the command specified in the app's README (typically `uvicorn main:app` or `python main.py`)
+
+`print(rg('fast.ai CNAME', disallow_re=disallowed))`
 
 ## Contributing
 
@@ -65,4 +89,26 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Acknowledgements
 
-These examples were created to showcase the capabilities of [FastHTML](https://github.com/AnswerDotAI/fasthtml), a Python framework for building dynamic web applications.
+These examples were created to showcase the capabilities of [FastHTML](https://github.com/web4application/fastht.ml), a Python framework for building dynamic web applications.
+
+``create``
+`
+def create(
+    path:str, # Path where the new file should be created
+    file_text:str, # Content to write to the file
+    overwrite:bool=False, # Whether to overwrite existing files
+)->str:
+print(create('test.txt', 'Hello, world!').replace(os.getcwd(), '/path'))
+f = Path('test.txt')
+test_eq(f.exists(), True)
+print('Contents:\n', view(f, nums=True))
+`
+``replace_lines`` 
+`
+def replace_lines(
+    path:str, # Path to the file to modify
+    start_line:int, # Starting line number to replace (1-based indexing)
+    end_line:int, # Ending line number to replace (1-based indexing, inclusive)
+    new_content:str, # New content to replace the specified lines
+):
+`
