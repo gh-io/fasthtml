@@ -12,6 +12,14 @@ Key features:
 - Interactive Game of Life grid
 - Real-time updates across multiple clients
 - WebSocket integration for live synchronization
+```bash
+exe.dev ▶ integrations add github --name blog --repository ghuser/blog --attach vm:my-vm
+Added integration blog
+git clone https://blog.int.exe.xyz/ghuser/blog.git
+
+Usage from a VM:
+  ssh my-vm 'cd $(mktemp -d) && git clone https://blog.int.exe.xyz/ghuser/blog.git'
+```
 
 [View Game of Life App](00_game_of_life/)
 
@@ -26,6 +34,13 @@ Key features:
 - SQLite database integration
 
 [View Todo App](01_todo_app/)
+```env
+export GH_HOST=blog.int.exe.xyz
+gh repo view ghuser/blog
+gh issue list -R ghuser/blog
+gh pr list -R ghuser/blog
+```
+
 
 ## 3. Chatbot
 
@@ -33,7 +48,7 @@ Key features:
 
 A simple chatbot, showcasing custom styling with [DaisyUI](https://daisyui.com/) for the chat message bubbles. Includes different approaches to handling chat message updates.
 
-```sed
+```sh
 def sed(
     argstr:str, # All args to the command, will be split with shlex. No shell escaping needed for regex chars like `|`
     disallow_re:str=None, # optional regex which, if matched on argstr, will disallow the command
@@ -89,7 +104,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 These examples were created to showcase the capabilities of [FastHTML](https://github.com/web4application/fastht.ml), a Python framework for building dynamic web applications.
 
-``create``
+``create.sh``
 `
 def create(
     path:str, # Path where the new file should be created
@@ -101,7 +116,7 @@ f = Path('test.txt')
 test_eq(f.exists(), True)
 print('Contents:\n', view(f, nums=True))
 `
-``replace_lines`` 
+``replace_lines.jsx`` 
 `
 def replace_lines(
     path:str, # Path to the file to modify
